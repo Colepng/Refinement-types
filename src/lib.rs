@@ -16,11 +16,19 @@
 
 #[macro_use]
 pub mod macros;
-pub mod traits;
+
+#[const_trait]
+pub trait Refined {
+    type Input;
+
+    fn new(input: Self::Input) -> Self;
+
+    fn holds(input: &Self::Input) -> bool;
+}
 
 #[cfg(test)]
 mod tests {
-    use crate::traits::Refined;
+    use crate::Refined;
 
     #[derive(Debug)]
     pub struct NotZero {
