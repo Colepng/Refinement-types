@@ -13,6 +13,7 @@
     unsafe_code
 )]
 #![feature(const_trait_impl)]
+#![cfg_attr(not(test), no_std)]
 
 #[macro_use]
 pub mod macros;
