@@ -1,4 +1,8 @@
 [package]
-name = "typed-invariants"
+name = "refine"
 version = "0.1.0"
 edition = "2024"
+
+[lib]
+name = "refine"
+path = "src/lib.rs"

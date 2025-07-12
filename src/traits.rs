@@ -1,32 +1,32 @@
 #[const_trait]
 pub trait Refined {
     type Input;
-    type Predicate: Predicate;
 
     fn new(input: Self::Input) -> Self;
+
+    fn holds(input: &Self::Input) -> bool;
 }
 
+// #[const_trait]
+// pub trait Restriction<I> {
+//     fn holds(input: &I) -> bool;
+// }
 
-#[const_trait]
-pub trait Restriction<I> {
-    fn holds(input: &I) -> bool;
-}
+// #[allow(unused)]
+// pub struct PredicateStruct<I, R: Restriction<I>> {
+//     input: I,
+//     restriction: R,
+// }
 
-#[allow(unused)]
-pub struct PredicateStruct<I, R: Restriction<I>> {
-    input: I,
-    restriction: R,
-}
+// pub trait Predicate {
+//     type Input;
+//     type Restriction: Restriction<Self::Input>;
+// }
 
-pub trait Predicate {
-    type Input;
-    type Restriction: Restriction<Self::Input>;
-}
-
-impl<I, R: Restriction<I>> Predicate for PredicateStruct<I, R> {
-    type Input = I;
-    type Restriction = R;
-}
+// impl<I, R: Restriction<I>> Predicate for PredicateStruct<I, R> {
+//     type Input = I;
+//     type Restriction = R;
+// }
 
 // pub struct Not<const PTR: *const T, T> {
 //     // phatom_data: PhantomData<T>,

@@ -1,7 +1,8 @@
 #[allow(unused)]
+#[macro_export]
 macro_rules! refine_into_const {
     ($value:expr, $input:ty, $restriction:ty, $output:ty) => {{
-        use crate::traits::Restriction;
+        use $crate::traits::Restriction;
         #[derive(Debug)]
         #[repr(transparent)]
         struct RefinedMacro {
@@ -33,6 +34,7 @@ macro_rules! refine_into_const {
 }
 
 #[allow(unused)]
+#[macro_export]
 macro_rules! refine_into {
     ($value:expr, $input:ty, $restriction:ty, $output:ty) => {{
         #[derive(Debug)]
@@ -64,18 +66,14 @@ macro_rules! refine_into {
 }
 
 #[allow(unused)]
+#[macro_export]
 macro_rules! refine_const {
     ($value:expr, $output:ty) => {{
-        use crate::traits::Predicate;
-        use crate::traits::Restriction;
-
-        type RestrictionMacro = <<$output as Refined>::Predicate as Predicate>::Restriction;
-
         const RESULT: $output = {
-            if <RestrictionMacro>::holds(&$value) {
+            if <$output>::holds(&$value) {
                 <$output>::new($value)
             } else {
-                panic!("predicate does not hold at run time");
+                panic!("predicate does not hold at build time");
             }
         };
 
@@ -86,8 +84,8 @@ macro_rules! refine_const {
 #[allow(unused)]
 macro_rules! refine_v1 {
     ($value:expr, $output:ty) => {{
-        use crate::traits::Predicate;
-        use crate::traits::Restriction;
+        use $crate::traits::Predicate;
+        use $crate::traits::Restriction;
 
         type RestrictionMacro = <<$output as Refined>::Predicate as Predicate>::Restriction;
 
@@ -100,17 +98,14 @@ macro_rules! refine_v1 {
 }
 
 #[allow(unused)]
+#[macro_export]
 macro_rules! refine {
     ($value:expr, $output:ty) => {{
-        use crate::traits::Predicate;
-        use crate::traits::Restriction;
-
-        type RestrictionMacro = <<$output as Refined>::Predicate as Predicate>::Restriction;
-        type Input = <<$output as Refined>::Predicate as Predicate>::Input;
+        type Input = <$output as Refined>::Input;
 
         let value: Input = $value.into();
 
-        if <RestrictionMacro>::holds(&value) {
+        if <$output>::holds(&value) {
             <$output>::new(value)
         } else {
             panic!("predicate does not hold at run time");

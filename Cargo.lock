@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "typed-invariants"
+name = "refine"
 version = "0.1.0"
