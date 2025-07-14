@@ -13,13 +13,14 @@
     unsafe_code
 )]
 #![feature(const_trait_impl)]
+#![feature(const_from)]
 #![cfg_attr(not(test), no_std)]
 
 #[macro_use]
 pub mod macros;
 
 #[const_trait]
-pub trait Refined {
+pub trait Refined: const Into<Self> {
     type Input;
 
     fn new(input: Self::Input) -> Self;
@@ -48,7 +49,7 @@ mod tests {
         }
     }
 
-    impl From<NotZero> for u64 {
+    impl const From<NotZero> for u64 {
         fn from(value: NotZero) -> Self {
             value.num
         }
@@ -127,6 +128,12 @@ mod tests {
     #[should_panic]
     fn test_0_to_not_zero() {
         refine!(0u64, NotZero);
+    }
+
+    #[test]
+    const fn test_const_conversion() {
+        const REFINED: NotZero = refine_const!(11u64, NotZero);
+        refine_const!(REFINED, AboveTen);
     }
 
     #[test]
