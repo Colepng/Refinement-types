@@ -13,7 +13,7 @@
     unsafe_code
 )]
 #![feature(const_trait_impl)]
-#![feature(const_from)]
+#![feature(const_convert)]
 #![cfg_attr(not(test), no_std)]
 
 #[macro_use]
