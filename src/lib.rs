@@ -19,8 +19,7 @@
 #[macro_use]
 pub mod macros;
 
-#[const_trait]
-pub trait Refined: const Into<Self> {
+pub const trait Refined: const Into<Self> {
     type Input;
 
     fn new(input: Self::Input) -> Self;
